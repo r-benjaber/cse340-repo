@@ -157,3 +157,46 @@ VALUES
     'Capiata, Paraguay',
     '2026-09-01'
 );
+
+CREATE TABLE category (
+	id SERIAL PRIMARY KEY,
+	category VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE project_category (
+	id_category INT NOT NULL,
+	id_project INT NOT NULL,
+
+	PRIMARY KEY (id_category, id_project),
+
+	CONSTRAINT fk_id_project_project_category_service_project 
+	FOREIGN KEY (id_project) REFERENCES service_project(id) ON DELETE CASCADE,
+
+	CONSTRAINT fk_id_category_project_category_category
+	FOREIGN KEY (id_category) REFERENCES category(id) ON DELETE CASCADE
+);
+
+INSERT INTO category (category) VALUES
+('Infrastructure & Housing'),
+('Environment & Sustainability'),
+('Community Support & Welfare');
+
+INSERT INTO project_category (id_category, id_project) VALUES
+(1, 1), 
+(1, 2), 
+(1, 3), 
+(1, 4), 
+(1, 5), 
+
+(2, 6),
+(2, 7),
+(2, 8),
+(2, 9),
+(2, 10),
+
+
+(3, 11),
+(3, 12),
+(3, 13),
+(3, 14),
+(2, 15);
