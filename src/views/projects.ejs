@@ -6,7 +6,7 @@
         <h2>Upcoming Service Projects</h2>
         <ul>
             <% projects.forEach( project => {%>
-                <li><%= project.service_date %>: <%= project.title %> (<%= project.organization_name %>)</li>
+                <li><%= project.service_date %>: <a href="/project/<%= project.id %>"><%= project.title %></> (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)</li>
             <% }); %>
         </ul>
     </main>
