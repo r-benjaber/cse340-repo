@@ -1,4 +1,4 @@
-<% - include('partials/header') %>
+<%- include('partials/header') %>
     <main>
         <h1>
             <%= title %>
@@ -8,10 +8,10 @@
             <%= project.title %>
         </h2>
         <p><strong>Description:</strong> <%= project.description %></p>
-        <p><strong>Fecha:</strong> <%= project.date %></p>
+        <p><strong>Fecha:</strong> <%= project.service_date %></p>
         <p><strong>Location:</strong> <%= project.location %></p>
     
         <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>
 
     </main>
-    <% - include('partials/footer') %>
+<%- include('partials/footer') %>

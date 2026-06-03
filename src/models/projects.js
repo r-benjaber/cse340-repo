@@ -56,12 +56,12 @@ const getProjectDetails = async (id) => {
         SELECT sp.id, sp.title, sp.description, sp.service_date, sp.location, sp.organization_id, o.name AS organization_name
         FROM service_project sp
         JOIN organization o ON o.organization_id = sp.organization_id
-        WHERE sp.id = $1
+        WHERE sp.id = $1;
     `;
     const queryParams = [id];
     const result = await db.query(query, queryParams);
 
-    return result.rows;
+    return result.rows[0];
 };
 
 export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails };
