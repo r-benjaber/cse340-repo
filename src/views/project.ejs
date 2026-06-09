@@ -5,19 +5,20 @@
         </h1>
 
         <h2>
-            <%= project.title %>
+            <%= projectDetails.title %>
         </h2>
-        <p><strong>Description:</strong> <%= project.description %></p>
-        <p><strong>Fecha:</strong> <%= project.service_date %></p>
-        <p><strong>Location:</strong> <%= project.location %></p>
+        <p><strong>Description:</strong> <%= projectDetails.description %></p>
+        <p><strong>Fecha:</strong> <%= projectDetails.service_date %></p>
+        <p><strong>Location:</strong> <%= projectDetails.location %></p>
     
-        <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>
+        <a href="/organization/<%= projectDetails.organization_id %>"><%= projectDetails.organization_name %></a>
+        <p><a href="/edit-project/<%= projectDetails.id %>">Edit Project</a></p>
         <h3>Categories: </h3>
         <ul>
             <% categories.forEach(category => { %>
                 <li><a href="/category/<%= category.id %>"><%= category.category %></a></li>
             <% }); %>
         </ul>
-        <a href="/assign-categories/<%= project.id %>">Edit Categories</a>
+        <a href="/assign-categories/<%= projectDetails.id %>">Edit Categories</a>
     </main>
 <%- include('partials/footer') %>

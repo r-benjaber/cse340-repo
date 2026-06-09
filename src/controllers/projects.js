@@ -1,5 +1,5 @@
 import { getAllCategoriesByProject } from "../models/categories.js";
-import { getAllProjects, getProjectDetails, getUpcomingProjects, createProject } from "../models/projects.js";
+import { getAllProjects, getProjectDetails, getUpcomingProjects, createProject, updateProject } from "../models/projects.js";
 import { getAllOrganizations } from "../models/organizations.js";
 import { body, validationResult } from 'express-validator';
 
@@ -14,11 +14,11 @@ const showProjectsPage = async (req, res) => {
 
 const showProjectDetailsPage = async (req, res) => {
     const projectId = req.params.id;
-    const project = await getProjectDetails(projectId);
+    const projectDetails = await getProjectDetails(projectId);
     const categories = await getAllCategoriesByProject(projectId);
     const title = "Project Details";
 
-    res.render('project', { title, project, categories });
+    res.render('project', { title, projectDetails, categories });
 };
 
 const showNewProjectForm = async (req, res) => {
@@ -26,7 +26,7 @@ const showNewProjectForm = async (req, res) => {
     const title = 'Add New Service Project';
 
     res.render('new-project', { title, organizations });
-}
+};
 
 const processNewProjectForm = async (req, res) => {
 
@@ -56,7 +56,7 @@ const processNewProjectForm = async (req, res) => {
         req.flash('error', 'There was an error creating the service project.');
         res.redirect('/new-project');
     }
-}
+};
 
 const projectValidation = [
     body('title')
@@ -79,10 +79,44 @@ const projectValidation = [
         .isInt().withMessage('Organization must be a valid integer')
 ];
 
+const showEditProjectForm = async (req, res) => {
+    const projectId = req.params.id;
+    const projectDetails = await getProjectDetails(projectId);
+
+    const organizations = await getAllOrganizations();
+    const title = 'Edit Service Project';
+
+    res.render('edit-project', { title, projectDetails, organizations });
+};
+
+const processEditProjectForm = async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        errors.array().forEach(error => {
+            res.flash('error', error.msg);
+        });
+
+        return res.redirect('/edit-project/' + req.params.id);
+    }
+
+    
+
+    const projectId = req.params.id;
+    const { organizationId, title, description, location, date } = req.body;
+
+    await updateProject(projectId, organizationId, title, description, location, date);
+
+    req.flash('success', 'Project data updated successfully');
+    res.redirect(`/project/${projectId}`)
+};
+
 export {
     showProjectsPage,
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
-    projectValidation
+    projectValidation,
+    showEditProjectForm,
+    processEditProjectForm
 };
