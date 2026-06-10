@@ -15,7 +15,7 @@ const getAllCategories = async () => {
 
 const getCategoryById = async (id) => {
     const query = `
-        SELECT category FROM public.category
+        SELECT id, category FROM public.category
         WHERE id = $1;
     `;
     const queryParams = [id];
@@ -87,6 +87,50 @@ const updateCategoryAssignments = async (projectId, categoryIds) => {
     for (const categoryId of categoryIds) {
         await assignCategoryToProject(categoryId, projectId);
     }
+};
+
+const createCategory = async (name) => {
+
+    const query = `
+        INSERT INTO category (category)
+        VALUES ($1)
+        RETURNING id;
+    `
+    const result = await db.query(query, [name]);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to create category');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGIN === 'true') {
+        console.log('Created category with ID:' + result.rows[0].id);
+    }
+
+    return result.rows[0].id;
+
+};
+
+const updateCategory = async (categoryId, name) => {
+
+    const query = `
+        UPDATE category
+        SET category = $1
+        WHERE id = $2
+        RETURNING id;
+    `;
+
+    const queryParams = [name, categoryId];
+    const result = await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to update category');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGIN === 'true') {
+        console.log('Updated category with ID:' + categoryId);
+    }
+
+    return result.rows[0].id
 }
 
 
@@ -96,5 +140,7 @@ export {
     getAllProjectsByCategory,
     getCategoryById,
     assignCategoryToProject,
-    updateCategoryAssignments
+    updateCategoryAssignments,
+    createCategory,
+    updateCategory
 };  

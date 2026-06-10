@@ -9,12 +9,14 @@
         </p>
         <p><strong>Projects: </strong></p>
         <ul>
-        <% projects.forEach(project=> { %>
-            <li>
-                <a href="/project/<%= project.project_id %>"><%= project.title %></a>
-            </li>
-            <% });%>
+            <% projects.forEach(project=> { %>
+                <li>
+                    <a href="/project/<%= project.project_id %>">
+                        <%= project.title %>
+                    </a>
+                </li>
+                <% });%>
         </ul>
-
+        <p><a href="/edit-category/<%= category.id %>" class="action-link">Edit Category</a></p>
     </main>
     <%- include('partials/footer') %>
