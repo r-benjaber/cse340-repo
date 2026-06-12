@@ -7,5 +7,8 @@
         <p>Our mission is to promote service across the world by connecting volunteers with service opportunities in
             their
             community.</p>
+        <% if (isLoggedIn) { %>
+            <p><a href="/dashboard" class="action-link">My Dashboard</a></p>
+            <% } %>
     </main>
     <%- include('partials/footer') %>
