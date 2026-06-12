@@ -10,6 +10,9 @@
                     </a></li>
                 <% });%>
         </ul>
-        <p><a href="/new-category" class="action-link">New category</a></p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p><a href="/new-category" class="action-link">New category</a></p>
+            <% } %>
+        
     </main>
     <%- include('partials/footer') %>
