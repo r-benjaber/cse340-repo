@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <div class="table-wrapper">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(u => { %>
+                        <tr>
+                            <td>
+                                <%= u.user_id %>
+                            </td>
+                            <td>
+                                <%= u.name %>
+                            </td>
+                            <td>
+                                <%= u.email %>
+                            </td>
+                            <td>
+                                <span class="role-badge role-<%= u.role_name.toLowerCase() %>">
+                                    <%= u.role_name %>
+                                </span>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <%- include('partials/footer') %>

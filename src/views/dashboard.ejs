@@ -10,6 +10,9 @@
         </p>
         <p>Username: <%= email %>
         </p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p><a href="/all-users" class="action-link">All Users</a></p>
+            <% } %>
 
     </main>
 

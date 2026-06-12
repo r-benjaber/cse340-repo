@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -101,6 +101,13 @@ const requireRole = (role) => {
     };
 };
 
+const showAllUsersPage = async (req, res) => {
+    const users = await getAllUsers();
+    const title = 'All Users';
+
+    res.render('all-users', { title, users });
+};
+
 export {
     showUserRegistrationForm,
     processUserRegistrationForm,
@@ -109,5 +116,6 @@ export {
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    showAllUsersPage
 };
