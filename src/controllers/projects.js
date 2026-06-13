@@ -1,5 +1,6 @@
 import { getAllCategoriesByProject } from "../models/categories.js";
 import { getAllProjects, getProjectDetails, getUpcomingProjects, createProject, updateProject } from "../models/projects.js";
+import { isVolunteered } from "../models/users.js";
 import { getAllOrganizations } from "../models/organizations.js";
 import { body, validationResult } from 'express-validator';
 
@@ -17,8 +18,9 @@ const showProjectDetailsPage = async (req, res) => {
     const projectDetails = await getProjectDetails(projectId);
     const categories = await getAllCategoriesByProject(projectId);
     const title = "Project Details";
+    const volunteered = req.session.user ? await isVolunteered(projectId, req.session.user.user_id) : false;
 
-    res.render('project', { title, projectDetails, categories });
+    res.render('project', { title, projectDetails, categories, volunteered });
 };
 
 const showNewProjectForm = async (req, res) => {

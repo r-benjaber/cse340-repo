@@ -211,16 +211,6 @@ INSERT INTO roles (role_name, role_description) VALUES
     ('user', 'Standard user with basic access'),
     ('admin', 'Administrator with full system access');
 
--- Verify the data was inserted
-SELECT * FROM roles;
-
-INSERT INTO roles (role_name, role_description) VALUES 
-    ('user', 'Standard user with basic access'),
-    ('admin', 'Administrator with full system access');
-
--- Verify the data was inserted
-SELECT * FROM roles;
-
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -228,4 +218,10 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     role_id INTEGER REFERENCES roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE volunteer(
+project_id INT NOT NULL REFERENCES service_project(id) ON DELETE CASCADE,
+user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+CONSTRAINT pk_volunteer PRIMARY KEY (project_id, user_id)
 );

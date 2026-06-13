@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers, volunteer, removeVolunteer, getAllVolunteeredProjects } from '../models/users.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -73,12 +73,14 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-const showDashboard = (req, res) => {
+const showDashboard = async (req, res) => {
     const user = req.session.user;
+    const projects = await getAllVolunteeredProjects(user.user_id);
     res.render('dashboard', {
         title: 'Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        projects: projects
     });
 };
 
@@ -108,6 +110,23 @@ const showAllUsersPage = async (req, res) => {
     res.render('all-users', { title, users });
 };
 
+const processVolunteer = async (req, res) => {
+    const userId = req.session.user.user_id;
+    const projectId = req.params.id;
+
+    await volunteer(projectId, userId);
+    return res.redirect(req.get('Referer') || '/dashboard')
+};
+
+const processRemoveVolunteer = async (req, res) => {
+    const userId = req.session.user.user_id;
+    const projectId = req.params.id;
+
+    await removeVolunteer(projectId, userId);
+    return res.redirect(req.get('Referer') || '/dashboard');
+};
+
+
 export {
     showUserRegistrationForm,
     processUserRegistrationForm,
@@ -117,5 +136,7 @@ export {
     requireLogin,
     showDashboard,
     requireRole,
-    showAllUsersPage
+    showAllUsersPage,
+    processVolunteer,
+    processRemoveVolunteer
 };

@@ -10,9 +10,19 @@
         </p>
         <p>Username: <%= email %>
         </p>
+        <h3>Volunteered Projects</h3>
+        <% if (projects.length === 0) { %>
+            <p>Not volunteered to any projects yet.</p>
+        <% } %>
+        <ul>
+            <% projects.forEach(project => { %>
+                <li><p><a href="/project/<%= project.id %>"><%= project.title %>.</a> <a href="/remove-volunteer/<%= project.id %>">Remove from project</a></p></li>
+            <% }); %>
+        </ul>
         <% if (user && user.role_name==='admin' ) { %>
             <p><a href="/all-users" class="action-link">All Users</a></p>
-            <% } %>
+        <% } %>
+
 
     </main>
 

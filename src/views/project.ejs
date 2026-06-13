@@ -32,6 +32,13 @@
             <p><a href="/edit-project/<%= projectDetails.id %>" class="action-link">Edit Project</a></p>
             <a href="/assign-categories/<%= projectDetails.id %>" class="action-link">Edit Categories</a>
             <% } %>
+        <% if (isLoggedIn) { %>
+            <% if (volunteered) { %>
+                <a href="/remove-volunteer/<%= projectDetails.id %>" class="action-link">Remove from project</a>
+            <% } else { %>
+                <a href="/volunteer/<%= projectDetails.id %>" class="action-link">Volunteer</a>
+            <% } %>
+        <% } %>
         
     </main>
     <%- include('partials/footer') %>
